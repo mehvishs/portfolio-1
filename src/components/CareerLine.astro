@@ -1,0 +1,129 @@
+---
+// Work + experience as one vertical line that fills in as you scroll.
+// Each role lists the case studies that came out of it, with a small fan of thumbnails.
+import Status from './Status.astro';
+
+interface Project {
+  title: string;
+  outcome: string;
+  href?: string;           // no href = coming soon
+  status?: 'Shipped' | 'In rollout' | 'Vision';
+}
+interface Role {
+  year: string;
+  company: string;
+  role: string;
+  text: string;
+  current?: boolean;
+  projects?: Project[];
+}
+interface Props {
+  roles: Role[];
+}
+const { roles } = Astro.props;
+---
+
+<div class="line" style="--p: 0">
+  <span class="line__track" aria-hidden="true"><span class="line__fill"></span></span>
+  <ol class="roles">
+  {roles.map((r) => (
+    <li class:list={['role', { 'role--current': r.current }]}>
+      <span class="role__year label">{r.year}</span>
+      <span class="role__dot" aria-hidden="true"></span>
+      <div class="role__body">
+        <h3>{r.company} {r.current && <span class="now label">Current</span>}</h3>
+        <p class="role__title">{r.role}</p>
+        <p class="role__text">{r.text}</p>
+        {r.projects && r.projects.length > 0 && (
+          <ul class="projects">
+            {r.projects.map((p) => {
+              const Tag = p.href ? 'a' : 'div';
+              return (
+                <li>
+                  <Tag class:list={['proj', { 'proj--soon': !p.href }]} href={p.href} data-cursor={p.href ? 'View case study →' : undefined}>
+                    <span class="fan" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="proj__text">
+                      <b>{p.title} {p.status && <Status value={p.status} />}{!p.href && <span class="soon label">Coming soon</span>}</b>
+                      <span>{p.outcome}</span>
+                    </span>
+                    {p.href && <span class="proj__arrow" aria-hidden="true">→</span>}
+                  </Tag>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </li>
+  ))}
+  </ol>
+</div>
+
+<style>
+  .line { position: relative; }
+  .roles { list-style: none; margin: 0; padding: 0; display: grid; gap: 56px; }
+  .line__track { position: absolute; left: 84px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(to bottom, var(--line) 0 4px, transparent 4px 8px); }
+  .line__fill { position: absolute; inset: 0 0 auto; height: calc(var(--p) * 100%); background: var(--charcoal); transition: height .1s linear; }
+  .role { position: relative; display: grid; grid-template-columns: 64px 40px minmax(0, 1fr); align-items: start; }
+  .role__year { text-align: right; padding-top: 5px; }
+  .role__dot { justify-self: center; margin-top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--dim); position: relative; z-index: 1; transition: background .3s, border-color .3s; }
+  .role.is-passed .role__dot { background: var(--charcoal); border-color: var(--charcoal); }
+  .role--current .role__dot { background: var(--accent); border-color: var(--charcoal); box-shadow: 0 0 0 5px rgba(255, 205, 53, .35); }
+  .role__body { display: grid; gap: 6px; min-width: 0; }
+  h3 { font-size: 21px; font-variation-settings: "wdth" 108; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .now { color: var(--accent-ink); }
+  .role__title { font-weight: 600; }
+  .role__text { color: var(--muted); max-width: 62ch; }
+
+  .projects { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 4px; }
+  .proj { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 10px 14px 10px 8px; margin-left: -8px; border-radius: 12px; text-decoration: none; color: inherit; transition: background .2s; }
+  a.proj:hover { background: var(--raised); }
+  .proj__text { display: grid; gap: 2px; min-width: 0; }
+  .proj__text b { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-weight: 600; }
+  .proj__text > span { color: var(--muted); font-size: 15px; }
+  .proj__arrow { color: var(--muted); transition: transform .2s var(--ease), color .2s; }
+  a.proj:hover .proj__arrow { transform: translateX(4px); color: var(--fg); }
+  .proj--soon { opacity: .75; }
+  .proj--soon .fan i { border-style: dashed; background: transparent; }
+  .soon { font-size: 10px; }
+
+  /* little fan of thumbnails: stand-ins until real screenshots arrive */
+  .fan { position: relative; width: 56px; height: 44px; }
+  .fan i { position: absolute; top: 2px; left: 16px; width: 26px; height: 40px; border-radius: 5px; border: 1px solid var(--line);
+    background: repeating-linear-gradient(135deg, var(--surface) 0 5px, var(--raised) 5px 10px); box-shadow: 0 2px 6px rgba(40, 32, 20, .12);
+    transition: transform .3s var(--ease); }
+  .fan i:nth-child(1) { transform: rotate(-12deg) translateX(-9px); }
+  .fan i:nth-child(3) { transform: rotate(12deg) translateX(9px); }
+  .fan i:nth-child(2) { z-index: 1; }
+  a.proj:hover .fan i:nth-child(1) { transform: rotate(-18deg) translateX(-13px); }
+  a.proj:hover .fan i:nth-child(3) { transform: rotate(18deg) translateX(13px); }
+
+  @media (max-width: 640px) {
+    .line__track { left: 6px; }
+    .role { grid-template-columns: 14px minmax(0, 1fr); column-gap: 14px; }
+    .role__year { grid-column: 2; grid-row: 1; text-align: left; padding: 0 0 4px; }
+    .role__dot { grid-column: 1; grid-row: 1 / span 2; margin-top: 4px; }
+    .role__body { grid-column: 2; }
+    .proj { grid-template-columns: 52px minmax(0, 1fr); }
+    .proj__arrow { display: none; }
+  }
+</style>
+
+<script>
+  const line = document.querySelector<HTMLElement>('.line');
+  if (line) {
+    const roles = [...line.querySelectorAll<HTMLElement>('.role')];
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = line.getBoundingClientRect();
+      const mark = window.innerHeight * 0.6; // the line fills up to 60% down the screen
+      const p = Math.min(1, Math.max(0, (mark - r.top) / r.height));
+      line.style.setProperty('--p', p.toFixed(3));
+      roles.forEach((el) => el.classList.toggle('is-passed', el.getBoundingClientRect().top + 10 < mark));
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+</script>
