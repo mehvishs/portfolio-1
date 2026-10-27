@@ -24,17 +24,17 @@ const { back, mid, phone, note } = Astro.props;
   .stage { position: relative; aspect-ratio: 16 / 9; max-width: 100%; margin-block: 8px; }
   .layer { position: absolute; transition: transform .25s ease-out; will-change: transform; }
   .layer span { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: center; }
-  .l-back { inset: 0 14% 12% 0; border-radius: 10px; border: 1px solid var(--line); opacity: .75;
-    background: repeating-linear-gradient(135deg, #121214 0 14px, #17171a 14px 28px); display: grid; place-items: center; }
+  .l-back { inset: 0 14% 12% 0; border-radius: 10px; border: 1px solid var(--line);
+    background: repeating-linear-gradient(135deg, #efece6 0 14px, #e8e5de 14px 28px); display: grid; place-items: center; }
   .l-mid { right: 0; top: 24%; width: 52%; aspect-ratio: 4 / 3; max-width: 100%; border-radius: 12px; border: 1px solid var(--line);
-    background: repeating-linear-gradient(135deg, var(--raised) 0 14px, #1b1b1e 14px 28px); display: grid; place-items: center;
-    box-shadow: 0 24px 50px rgba(0,0,0,.55); padding: 12px; }
+    background: repeating-linear-gradient(135deg, var(--surface) 0 14px, #f4f2ed 14px 28px); display: grid; place-items: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 24px 48px rgba(40,32,20,.16); padding: 12px; }
   .l-phone { left: 6%; bottom: -4%; width: 18%; aspect-ratio: 9 / 18; max-width: 100%; border-radius: 22px; border: 6px solid #2f2f33;
-    background: #0e1311; display: grid; place-items: center; box-shadow: 0 24px 50px rgba(0,0,0,.6); padding: 8px; }
+    background: var(--charcoal); display: grid; place-items: center; box-shadow: 0 24px 48px rgba(40,32,20,.22); padding: 8px; }
   .l-front { inset: 0; pointer-events: none; }
   .pin { position: absolute; right: 47%; top: 30%; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent) !important;
     font-family: var(--mono); font-size: 12px; display: grid; place-items: center; box-shadow: 0 0 0 6px rgba(255, 205, 53, .2); }
-  .hand { position: absolute; right: 2%; top: 8%; font-family: var(--hand) !important; font-size: clamp(18px, 2.2vw, 24px) !important; color: var(--accent) !important; rotate: -3deg; max-width: 48%; text-align: right !important; line-height: 1.1; }
+  .hand { position: absolute; right: 2%; top: 8%; font-family: var(--hand) !important; font-size: clamp(18px, 2.2vw, 24px) !important; color: var(--accent-ink) !important; rotate: -3deg; max-width: 48%; text-align: right !important; line-height: 1.1; }
   @media (max-width: 640px) { .l-phone { display: none; } .stage { aspect-ratio: 4 / 3; } .l-mid { width: 64%; } }
 </style>
 

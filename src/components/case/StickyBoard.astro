@@ -43,7 +43,7 @@ const tilt = [-3, 2, -1.5, 2.5, -2, 1.5];
 
 <style>
   .board { border-radius: 12px; border: 1px solid var(--line); padding: 22px clamp(16px, 3vw, 28px) 30px; display: grid; gap: 20px;
-    background-color: #111113; background-image: radial-gradient(rgba(163,160,155,.14) 1px, transparent 1px); background-size: 22px 22px; }
+    background-color: var(--surface); background-image: radial-gradient(rgba(0,0,0,.09) 1px, transparent 1px); background-size: 22px 22px; }
   .board__head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .board__cols { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 24px; }
   .cluster { display: grid; gap: 16px; align-content: start; min-width: 0; }
@@ -51,14 +51,14 @@ const tilt = [-3, 2, -1.5, 2.5, -2, 1.5];
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; justify-items: start; }
   .note { position: relative; width: min(100%, 210px); min-height: 118px; padding: 14px 14px 16px; border-radius: 3px;
     font-family: var(--hand); font-size: 24px; line-height: 1.05; color: #2a2722; rotate: var(--tilt);
-    box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 12px 24px rgba(0,0,0,.45);
+    box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 10px 20px rgba(40,32,20,.14);
     touch-action: none; user-select: none; cursor: grab; transition: box-shadow .2s, rotate .2s; }
   .note small { display: block; margin-top: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: rgba(42,39,34,.65); }
   .note--yellow { background: var(--accent); }
-  .note--paper { background: var(--paper); }
+  .note--paper { background: var(--paper); border: 1px solid var(--line); }
   .note--grey { background: var(--note-grey); }
-  .note--star::after { content: "★ key insight"; position: absolute; top: -12px; right: -8px; font-family: var(--mono); font-size: 10px; background: var(--fg); color: var(--ink); padding: 2px 6px; border-radius: 3px; rotate: 4deg; }
-  .note.is-lifted { cursor: grabbing; rotate: 0deg; z-index: 5; box-shadow: 0 2px 0 rgba(0,0,0,.2), 0 26px 40px rgba(0,0,0,.6); }
+  .note--star::after { content: "★ key insight"; position: absolute; top: -12px; right: -8px; font-family: var(--mono); font-size: 10px; background: var(--charcoal); color: #fff; padding: 2px 6px; border-radius: 3px; rotate: 4deg; }
+  .note.is-lifted { cursor: grabbing; rotate: 0deg; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 24px 40px rgba(40,32,20,.22); }
   @media (max-width: 760px) {
     .board__cols { grid-template-columns: minmax(0, 1fr); }
     ul { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }

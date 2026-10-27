@@ -14,7 +14,7 @@ const { label = 'The problem', items } = Astro.props;
 </section>
 
 <style>
-  .problem { background: var(--raised); border-radius: 10px; padding: clamp(24px, 4vw, 44px); display: grid; gap: 22px; }
+  .problem { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(24px, 4vw, 44px); display: grid; gap: 22px; }
   ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 28px; }
   li { display: grid; gap: 6px; align-content: start; min-width: 0; }
   strong { font-family: var(--display); font-size: 22px; font-variation-settings: "wdth" 110; line-height: 1.2; }

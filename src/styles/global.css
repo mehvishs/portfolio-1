@@ -1,18 +1,21 @@
-/* Studio wall: dark charcoal, warm greys, one yellow accent (from the original site) */
+/* White-painted brick: warm off-white, charcoal type, greys, one yellow accent (from the original site) */
 :root {
-  --ink: #0b0b0c;          /* page / mortar */
-  --brick: #17161a;        /* wall surface */
-  --raised: #161618;       /* blocks */
-  --raised-2: #1e1e21;
-  --line: #2b2a2d;         /* rules */
-  --fg: #f2f1ee;           /* text */
-  --muted: #a3a09b;        /* warm grey */
-  --dim: #6a6863;          /* de-emphasised text (AA on --ink at large sizes) */
-  --accent: #ffcd35;       /* yellow */
+  --bg: #faf9f6;           /* page */
+  --ink: var(--bg);        /* legacy alias for the page colour */
+  --surface: #ffffff;      /* cards */
+  --raised: #f1efea;       /* tinted blocks */
+  --raised-2: #e9e6df;
+  --line: #dedad2;         /* rules */
+  --fg: #161616;           /* text */
+  --muted: #5c5954;        /* warm grey, AA on --bg */
+  --dim: #8a867f;          /* decorative only */
+  --charcoal: #1d1d1f;
+  --accent: #ffcd35;       /* yellow: fills only, never text on light */
+  --accent-ink: #7a5c00;   /* yellow-family text/borders that pass contrast */
   --on-accent: #141210;
-  --paper: #f2ede0;        /* index cards, notes */
-  --note-grey: #c9c6bf;
-  --danger: #e5484d;
+  --paper: #fffdf7;        /* index cards, notes */
+  --note-grey: #e4e0d8;
+  --danger: #d93f44;
 
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -22,7 +25,7 @@
   --max: 1120px;
   --read: 68ch;
   --ease: cubic-bezier(.2, .7, .2, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -64,14 +67,14 @@ strong { font-weight: 700; color: var(--fg); }
 /* Status pills: fill encodes how real the work is */
 .status { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; white-space: nowrap; line-height: 1.4; }
 .status--shipped { background: var(--accent); color: var(--on-accent); }
-.status--rollout { border: 1px solid var(--accent); color: var(--accent); }
+.status--rollout { border: 1px solid var(--accent-ink); color: var(--accent-ink); }
 .status--vision { border: 1px dashed var(--muted); color: var(--muted); }
-.status--tbc { border: 1px dashed var(--danger); color: #ff9a9d; }
+.status--tbc { border: 1px dashed var(--danger); color: var(--danger); }
 
 .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 3px 8px; border-radius: 4px; }
 
 /* Visible TODO for content Mehvish still needs to supply */
-.todo { border: 1px dashed var(--danger); color: #ff9a9d; padding: 10px 14px; border-radius: 6px; font-family: var(--mono); font-size: 13px; }
+.todo { border: 1px dashed var(--danger); color: var(--danger); background: #fff5f5; padding: 10px 14px; border-radius: 6px; font-family: var(--mono); font-size: 13px; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
