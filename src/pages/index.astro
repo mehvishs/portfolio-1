@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import WorkCard from '../components/WorkCard.astro';
+import SectionHead from '../components/SectionHead.astro';
+
+const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+
+const experience = [
+  {
+    role: 'Senior Product Designer',
+    company: 'ChargeLab',
+    dates: 'Oct 2025 – Present',
+    current: true,
+    text: "Sole designer, leading design direction through multiple funding rounds. I lead discovery, research, design and validation with product across the driver apps and CSMS dashboard, and integrated Claude and Cursor into our workflow so product and design can prototype and ship code.",
+  },
+  {
+    role: 'Product Designer',
+    company: 'ChargeLab',
+    dates: 'Jul 2024 – Oct 2025',
+    text: 'Designed driver-facing experiences: onboarding, payments, the charging flow, Apple/Google Pay and social sign-in. Ran A/B tests and usability studies, led AODA accessibility work, and built design system foundations across mobile and dashboard.',
+  },
+  {
+    role: 'UX Designer, Design Systems',
+    company: 'Auvik Networks',
+    dates: 'Jan 2023 – Dec 2023',
+    text: 'Co-led the move from the legacy system to Iceberg 2.0 with UX PMs, engineers and designers. Audited, documented and evolved the system, and led the alerting experience redesign with the Staff Designer and Platform team.',
+  },
+  {
+    role: 'Product Designer',
+    company: 'Biiibo',
+    dates: 'Aug 2021 – Jan 2023',
+    text: 'Redesigned contractor ordering and checkout across web, iOS and Android. Restructured the IA, redesigned the internal dispatch and logistics dashboard, and laid early design system foundations.',
+  },
+];
+---
+
+<Base>
+  <Hero />
+
+  <section class="container section" aria-labelledby="work">
+    <SectionHead id="work" title="Featured work" aside={`${work.length} case studies`} />
+    <div class="grid">
+      {work.map((w) => (
+        <WorkCard
+          href={`/work/${w.id}`}
+          title={w.data.title}
+          company={w.data.company}
+          outcome={w.data.outcome}
+          tags={w.data.tags}
+          status={w.data.status}
+          cover={w.data.cover}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="container section" aria-labelledby="experience">
+    <SectionHead id="experience" title="Experience" aside="8 years" />
+    <ol class="shelf">
+      {experience.map((e) => (
+        <li class:list={['binder', { 'binder--current': e.current }]}>
+          <span class="binder__spine" aria-hidden="true"><i></i></span>
+          <div class="binder__head">
+            <h3>{e.role}, <span>{e.company}</span></h3>
+            <span class="label">{e.dates}</span>
+          </div>
+          <p>{e.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container section about" aria-labelledby="about">
+    <SectionHead id="about" title="About" />
+    <div class="about__body">
+      <p class="about__lead">I come from the world of product, where I've developed a deep love for <strong>understanding customer problems</strong> and solving them through thoughtful design.</p>
+      <p>I'm happiest in the messy middle: on a construction site watching a contractor fight a checkout, at a charger watching a driver guess the plug-in order, or in a card sort with my PM and EM working out what we can actually build this quarter. Lately that also means prototyping in code, so ideas get tested sooner.</p>
+      <dl class="edu">
+        <div><dt class="label">Education</dt><dd>BBA, University of Toronto</dd></div>
+        <div><dt class="label">Certification</dt><dd>UX Design, BrainStation</dd></div>
+        <div><dt class="label">Studied</dt><dd>Digital Media, OCAD</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="container section contact" aria-labelledby="contact">
+    <SectionHead id="contact" title="Contact" />
+    <h2 class="contact__title">Hiring, or want to talk shop?</h2>
+    <div class="contact__row">
+      <button class="email" type="button" data-email="mehvish.siddique@gmail.com" data-cursor="Copy email">
+        <span>mehvish.siddique@gmail.com</span><span class="email__state label">Copy</span>
+      </button>
+      <a class="chip" href="https://www.linkedin.com/in/mehvishsiddique/" target="_blank" rel="noopener" data-cursor="Opens LinkedIn ↗">LinkedIn ↗</a>
+      <a class="chip" href="/resume.pdf" data-cursor="Résumé PDF ↓">Résumé ↓</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section { display: grid; gap: 36px; padding-block: clamp(64px, 9vw, 112px) 0; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; }
+
+  /* experience: a shelf of binders, a nod to the studio wall */
+  .shelf { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .binder { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: 22px; row-gap: 6px; background: var(--raised); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px 20px 0; overflow: hidden; }
+  .binder__spine { grid-row: 1 / span 2; background: var(--line); display: grid; place-items: center; margin-block: -20px; }
+  .binder__spine i { width: 10px; height: 10px; border-radius: 50%; background: var(--ink); box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
+  .binder--current .binder__spine { background: var(--accent); }
+  .binder__head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; }
+  .binder h3 { font-size: 19px; font-variation-settings: "wdth" 108; }
+  .binder h3 span { color: var(--muted); font-weight: 500; }
+  .binder p { color: var(--muted); font-size: 16px; max-width: var(--read); grid-column: 2; }
+
+  .about__body { display: grid; gap: 20px; max-width: var(--read); }
+  .about__lead { font-size: clamp(22px, 2.6vw, 28px); line-height: 1.35; font-variation-settings: "wdth" 104; }
+  .about__body > p:not(.about__lead) { color: var(--muted); }
+  .edu { display: flex; gap: 32px; flex-wrap: wrap; margin: 8px 0 0; }
+  .edu dd { margin: 4px 0 0; }
+
+  .contact { padding-bottom: clamp(72px, 10vw, 120px); }
+  .contact__title { font-size: clamp(34px, 5vw, 60px); font-weight: 800; font-variation-settings: "wdth" 118; letter-spacing: -.02em; }
+  .contact__row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .email { display: inline-flex; gap: 14px; align-items: center; font: inherit; font-size: clamp(16px, 2vw, 19px); color: var(--on-accent); background: var(--accent); border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer; }
+  .email__state { color: var(--on-accent); opacity: .7; }
+  .chip { text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 12px 20px; color: var(--fg); transition: border-color .2s; }
+  .chip:hover { border-color: var(--fg); }
+
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.email');
+  btn?.addEventListener('click', async () => {
+    const state = btn.querySelector('.email__state')!;
+    try {
+      await navigator.clipboard.writeText(btn.dataset.email!);
+      state.textContent = 'Copied ✓';
+    } catch {
+      window.location.href = `mailto:${btn.dataset.email}`;
+    }
+    setTimeout(() => { state.textContent = 'Copy'; }, 2000);
+  });
+</script>

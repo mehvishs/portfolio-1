@@ -1,0 +1,99 @@
+---
+// Research findings as an affinity map of sticky notes. Notes are plain text in normal flow
+// (readable without JS); dragging is a desktop/touch enhancement layered on with transforms.
+interface Note {
+  text: string;
+  source: string;
+  color?: 'yellow' | 'paper' | 'grey';
+  star?: boolean;
+}
+interface Props {
+  title?: string;
+  clusters: { name: string; notes: Note[] }[];
+}
+const { title = 'What we heard', clusters } = Astro.props;
+const tilt = [-3, 2, -1.5, 2.5, -2, 1.5];
+---
+
+<div class="board">
+  <div class="board__head">
+    <span class="label">{title}</span>
+    <span class="label board__hint">Drag the notes around</span>
+  </div>
+  <div class="board__cols" style={`--n: ${clusters.length}`}>
+    {clusters.map((c, ci) => (
+      <div class="cluster">
+        <span class="cluster__name label">{c.name}</span>
+        <ul>
+          {c.notes.map((n, ni) => (
+            <li
+              class:list={['note', `note--${n.color ?? 'paper'}`, { 'note--star': n.star }]}
+              style={`--tilt:${tilt[(ci * 2 + ni) % tilt.length]}deg`}
+              data-cursor="Drag"
+            >
+              {n.text}
+              <small>{n.source}</small>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .board { border-radius: 12px; border: 1px solid var(--line); padding: 22px clamp(16px, 3vw, 28px) 30px; display: grid; gap: 20px;
+    background-color: #111113; background-image: radial-gradient(rgba(163,160,155,.14) 1px, transparent 1px); background-size: 22px 22px; }
+  .board__head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .board__cols { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 24px; }
+  .cluster { display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .cluster__name { border-top: 1px dashed var(--dim); padding-top: 6px; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; justify-items: start; }
+  .note { position: relative; width: min(100%, 210px); min-height: 118px; padding: 14px 14px 16px; border-radius: 3px;
+    font-family: var(--hand); font-size: 24px; line-height: 1.05; color: #2a2722; rotate: var(--tilt);
+    box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 12px 24px rgba(0,0,0,.45);
+    touch-action: none; user-select: none; cursor: grab; transition: box-shadow .2s, rotate .2s; }
+  .note small { display: block; margin-top: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: rgba(42,39,34,.65); }
+  .note--yellow { background: var(--accent); }
+  .note--paper { background: var(--paper); }
+  .note--grey { background: var(--note-grey); }
+  .note--star::after { content: "★ key insight"; position: absolute; top: -12px; right: -8px; font-family: var(--mono); font-size: 10px; background: var(--fg); color: var(--ink); padding: 2px 6px; border-radius: 3px; rotate: 4deg; }
+  .note.is-lifted { cursor: grabbing; rotate: 0deg; z-index: 5; box-shadow: 0 2px 0 rgba(0,0,0,.2), 0 26px 40px rgba(0,0,0,.6); }
+  @media (max-width: 760px) {
+    .board__cols { grid-template-columns: minmax(0, 1fr); }
+    ul { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .note { font-size: 21px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.board').forEach((board) => {
+    let z = 5;
+    board.querySelectorAll<HTMLElement>('.note').forEach((note) => {
+      let ox = 0, oy = 0;
+      note.addEventListener('pointerdown', (e) => {
+        note.setPointerCapture(e.pointerId);
+        note.classList.add('is-lifted');
+        note.style.zIndex = String(++z);
+        const sx = e.clientX - ox, sy = e.clientY - oy;
+        const b = board.getBoundingClientRect(), n0 = note.getBoundingClientRect(), ox0 = ox, oy0 = oy;
+        const move = (ev: PointerEvent) => {
+          // keep the note inside the board
+          const nx = Math.max(b.left - n0.left + ox0, Math.min(b.right - n0.right + ox0, ev.clientX - sx));
+          const ny = Math.max(b.top - n0.top + oy0, Math.min(b.bottom - n0.bottom + oy0, ev.clientY - sy));
+          ox = nx; oy = ny;
+          note.style.transform = `translate(${ox}px, ${oy}px)`;
+        };
+        const up = () => {
+          note.classList.remove('is-lifted');
+          note.removeEventListener('pointermove', move);
+          note.removeEventListener('pointerup', up);
+          note.removeEventListener('pointercancel', up);
+        };
+        note.addEventListener('pointermove', move);
+        note.addEventListener('pointerup', up);
+        note.addEventListener('pointercancel', up);
+      });
+    });
+  });
+</script>

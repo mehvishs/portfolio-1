@@ -1,0 +1,57 @@
+---
+// Case-study opener: full context in the back, the cropped detail in the middle, a note in front.
+// Layers drift slightly with the mouse (desktop only).
+interface Props {
+  back: string;
+  mid: string;
+  phone?: string;
+  note: string;
+}
+const { back, mid, phone, note } = Astro.props;
+---
+
+<div class="stage" role="img" aria-label={`${back}, with ${mid} on top. Note: ${note}`}>
+  <div class="layer l-back" data-depth="6"><span>[IMG: {back}]</span></div>
+  {phone && <div class="layer l-phone" data-depth="16"><span>▶<br />[VIDEO: {phone}]</span></div>}
+  <div class="layer l-mid" data-depth="22"><span>[IMG: {mid}]</span></div>
+  <div class="layer l-front" data-depth="32">
+    <span class="pin">1</span>
+    <span class="hand">{note}</span>
+  </div>
+</div>
+
+<style>
+  .stage { position: relative; aspect-ratio: 16 / 9; max-width: 100%; margin-block: 8px; }
+  .layer { position: absolute; transition: transform .25s ease-out; will-change: transform; }
+  .layer span { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: center; }
+  .l-back { inset: 0 14% 12% 0; border-radius: 10px; border: 1px solid var(--line); opacity: .75;
+    background: repeating-linear-gradient(135deg, #121214 0 14px, #17171a 14px 28px); display: grid; place-items: center; }
+  .l-mid { right: 0; top: 24%; width: 52%; aspect-ratio: 4 / 3; max-width: 100%; border-radius: 12px; border: 1px solid var(--line);
+    background: repeating-linear-gradient(135deg, var(--raised) 0 14px, #1b1b1e 14px 28px); display: grid; place-items: center;
+    box-shadow: 0 24px 50px rgba(0,0,0,.55); padding: 12px; }
+  .l-phone { left: 6%; bottom: -4%; width: 18%; aspect-ratio: 9 / 18; max-width: 100%; border-radius: 22px; border: 6px solid #2f2f33;
+    background: #0e1311; display: grid; place-items: center; box-shadow: 0 24px 50px rgba(0,0,0,.6); padding: 8px; }
+  .l-front { inset: 0; pointer-events: none; }
+  .pin { position: absolute; right: 47%; top: 30%; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent) !important;
+    font-family: var(--mono); font-size: 12px; display: grid; place-items: center; box-shadow: 0 0 0 6px rgba(255, 205, 53, .2); }
+  .hand { position: absolute; right: 2%; top: 8%; font-family: var(--hand) !important; font-size: clamp(18px, 2.2vw, 24px) !important; color: var(--accent) !important; rotate: -3deg; max-width: 48%; text-align: right !important; line-height: 1.1; }
+  @media (max-width: 640px) { .l-phone { display: none; } .stage { aspect-ratio: 4 / 3; } .l-mid { width: 64%; } }
+</style>
+
+<script>
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fine && !reduce) {
+    document.querySelectorAll<HTMLElement>('.stage').forEach((stage) => {
+      const layers = [...stage.querySelectorAll<HTMLElement>('.layer')];
+      const area = stage.parentElement ?? stage;
+      area.addEventListener('pointermove', (e) => {
+        const r = stage.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        layers.forEach((l) => { const d = Number(l.dataset.depth); l.style.transform = `translate(${-dx * d}px, ${-dy * d}px)`; });
+      });
+      area.addEventListener('pointerleave', () => layers.forEach((l) => { l.style.transform = ''; }));
+    });
+  }
+</script>

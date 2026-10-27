@@ -1,0 +1,109 @@
+---
+title: Biiibo checkout
+company: Biiibo
+order: 4
+outcome: Contractors needed customer service just to check out. After the redesign, checkout calls dropped almost immediately.
+headline: Contractors needed customer service just to check out. I redesigned the checkout, and checkout-related calls dropped almost immediately.
+tags: [Mobile, Commerce]
+status: Shipped
+role: Product Designer & Researcher
+workedWith: Engineering (iOS, Android, backend), product, CSR team
+timeline: 4 weeks (2 weeks discovery, 2 weeks design & validation)
+tools: [Adobe XD, Miro]
+cover: Checkout, before and after
+opener:
+  back: Biiibo app, cart to checkout
+  mid: Redesigned order review, cropped
+  phone: contractor checking out
+  note: "\"What do I have to press to get to the next step?\""
+---
+
+import Problem from '../../components/case/Problem.astro';
+import KeyQuestion from '../../components/case/KeyQuestion.astro';
+import Section from '../../components/case/Section.astro';
+import Callout from '../../components/case/Callout.astro';
+import Figure from '../../components/case/Figure.astro';
+import Impact from '../../components/case/Impact.astro';
+import StickyBoard from '../../components/case/StickyBoard.astro';
+import Todo from '../../components/case/Todo.astro';
+
+<Problem
+  items={[
+    { title: 'Abandoned carts', text: 'The confusing checkout led new customers to abandon their carts and never come back.' },
+    { title: 'Support to check out', text: 'Our customer service team was fielding daily checkout complaints.' },
+    { title: 'Not built for the user', text: "Blue-collar contractors, not always comfortable with technology, couldn't tell what to press next." },
+  ]}
+/>
+
+<Todo>Confirm the support volume: your current site says 1–2 complaints a day; your brief says 3–5 questions a day.</Todo>
+
+<KeyQuestion>How might we simplify the checkout experience to reduce cart abandonment and improve customer satisfaction?</KeyQuestion>
+
+<Section id="research" eyebrow="Research" title="Going to the construction site">
+
+<Callout>
+  Our users were busy construction professionals who needed lots of notice to join a session. So **we went to them**: on-site at construction sites, with our equipment, asking contractors to talk through the checkout in their own words.
+</Callout>
+
+Out of twelve interviews, **seven users expressed frustration with checkout**. We also interviewed CSRs, who heard customer complaints every day, and reviewed competitors including Reno Run and Toolbx.
+
+<StickyBoard
+  title="In their own words"
+  clusters={[
+    { name: 'Navigation', notes: [
+      { text: '"What do I have to press to get to the next step? It\'s not obvious at all."', source: 'On-site interview', color: 'yellow', star: true },
+    ] },
+    { name: 'Delivery', notes: [
+      { text: '"I need price points to understand the delivery options."', source: 'On-site interview', color: 'paper' },
+    ] },
+    { name: 'Review', notes: [
+      { text: '"The review orders page confuses me."', source: 'Zoom interview', color: 'grey' },
+    ] },
+  ]}
+/>
+
+</Section>
+
+<Section id="design" eyebrow="Design" title="Working within the project model" status="Shipped">
+
+Biiibo's backend required users to create a "Project" with an address before ordering, a quirk that shaped the original confusing checkout. **The challenge was to keep that requirement while making it feel natural.**
+
+<Figure
+  image="Address select (formerly Projects), before and after"
+  caption="Projects became a simple address choice."
+  pins={[{ x: 50, y: 30 }]}
+  notes={[
+    { title: 'Address select', text: '"Projects" were reframed as choosing a delivery address, which contractors already understand.' },
+  ]}
+/>
+
+<Figure
+  image="Redesigned delivery options + order review"
+  caption="Delivery options with prices, and a clearer order review."
+  ratio="16 / 9"
+  pins={[{ x: 30, y: 50 }, { x: 72, y: 50 }]}
+  notes={[
+    { title: 'Priced delivery options', text: 'Contractors told us they needed prices to compare options, so every option shows one.' },
+    { title: 'Separate address and card steps', text: 'Testing showed that adding an address and a card on one screen felt cluttered, so they became separate pages.' },
+  ]}
+/>
+
+I tested low-fidelity wireframes with users and the CSR team, then moved to high fidelity. Many participants found it hard to react to wireframes, so **high-fidelity prototypes were essential for this audience.**
+
+</Section>
+
+<Section id="impact" eyebrow="Impact" title="Calls dropped almost immediately">
+
+<Impact stats={[{ to: '↓', label: '**CSR calls for checkout help dropped almost immediately** after release.' }]}>
+
+<Todo>Any number here would help a lot: calls per day before vs. after, or a change in cart abandonment.</Todo>
+
+</Impact>
+
+</Section>
+
+<Section id="next" eyebrow="What I learned" title="What I'd do next">
+
+<Todo>Write 2–3 lines in the first person.</Todo>
+
+</Section>

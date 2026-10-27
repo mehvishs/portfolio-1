@@ -1,0 +1,49 @@
+---
+// A small yellow follower that grows into a label on elements with data-cursor="…".
+// The native cursor stays visible; hidden on touch screens and with reduced motion.
+---
+
+<div class="cursor" aria-hidden="true"><span></span></div>
+
+<style>
+  .cursor {
+    position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none;
+    display: grid; place-items: center;
+    width: 12px; height: 12px; border-radius: 999px;
+    background: var(--accent); color: var(--on-accent);
+    font-family: var(--mono); font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden;
+    opacity: 0;
+    transition: width .25s var(--ease), height .25s var(--ease), opacity .2s;
+  }
+  .cursor span { opacity: 0; padding: 0 14px; transition: opacity .15s; }
+  .cursor.is-on { opacity: 1; }
+  .cursor.is-big { width: var(--w, 150px); height: 36px; }
+  .cursor.is-big span { opacity: 1; }
+  @media (pointer: coarse) { .cursor { display: none; } }
+</style>
+
+<script>
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cur = document.querySelector<HTMLElement>('.cursor');
+  if (cur && fine && !reduce) {
+    const text = cur.querySelector('span')!;
+    let x = -100, y = -100, tx = -100, ty = -100;
+    window.addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; cur.classList.add('is-on'); });
+    document.addEventListener('pointerleave', () => cur.classList.remove('is-on'));
+    const loop = () => {
+      x += (tx - x) * 0.2; y += (ty - y) * 0.2;
+      cur.style.transform = `translate(${x + 14}px, ${y + 14}px)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+    // delegate so labels work for elements added later too
+    document.addEventListener('pointerover', (e) => {
+      const el = (e.target as Element).closest<HTMLElement>('[data-cursor]');
+      if (!el) { cur.classList.remove('is-big'); return; }
+      text.textContent = el.dataset.cursor ?? '';
+      cur.style.setProperty('--w', `${text.textContent.length * 7.6 + 30}px`);
+      cur.classList.add('is-big');
+    });
+  }
+</script>

@@ -1,0 +1,30 @@
+---
+import Status from '../Status.astro';
+
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  status?: 'Shipped' | 'In rollout' | 'Vision' | 'TBC';
+}
+const { id, eyebrow, title, status } = Astro.props;
+---
+
+<section class="cs-section" id={id} aria-labelledby={`${id}-title`}>
+  <header>
+    <div class="eyebrow"><span class="label">{eyebrow}</span>{status && <Status value={status} />}</div>
+    <h2 id={`${id}-title`}>{title}</h2>
+  </header>
+  <div class="cs-body"><slot /></div>
+</section>
+
+<style>
+  .cs-section { display: grid; gap: 24px; scroll-margin-top: 90px; }
+  header { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .eyebrow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; font-variation-settings: "wdth" 110; letter-spacing: -.01em; }
+  .cs-body { display: grid; gap: 22px; }
+  .cs-body > :global(p), .cs-body > :global(ul), .cs-body > :global(ol) { max-width: var(--read); color: var(--muted); margin: 0; }
+  .cs-body > :global(ul), .cs-body > :global(ol) { padding-left: 1.2em; display: grid; gap: 8px; }
+  .cs-body :global(p strong), .cs-body :global(li strong) { color: var(--fg); }
+</style>

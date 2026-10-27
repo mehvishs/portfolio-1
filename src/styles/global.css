@@ -1,0 +1,79 @@
+/* Studio wall: dark charcoal, warm greys, one yellow accent (from the original site) */
+:root {
+  --ink: #0b0b0c;          /* page / mortar */
+  --brick: #17161a;        /* wall surface */
+  --raised: #161618;       /* blocks */
+  --raised-2: #1e1e21;
+  --line: #2b2a2d;         /* rules */
+  --fg: #f2f1ee;           /* text */
+  --muted: #a3a09b;        /* warm grey */
+  --dim: #6a6863;          /* de-emphasised text (AA on --ink at large sizes) */
+  --accent: #ffcd35;       /* yellow */
+  --on-accent: #141210;
+  --paper: #f2ede0;        /* index cards, notes */
+  --note-grey: #c9c6bf;
+  --danger: #e5484d;
+
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --hand: "Caveat", "Bradley Hand", cursive;
+
+  --max: 1120px;
+  --read: 68ch;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.08; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+strong { font-weight: 700; color: var(--fg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.container {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.skip {
+  position: absolute; left: -9999px; top: 8px; z-index: 100;
+  background: var(--accent); color: var(--on-accent); padding: 8px 14px; border-radius: 6px; font-weight: 600;
+}
+.skip:focus { left: 8px; }
+
+/* Status pills: fill encodes how real the work is */
+.status { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; white-space: nowrap; line-height: 1.4; }
+.status--shipped { background: var(--accent); color: var(--on-accent); }
+.status--rollout { border: 1px solid var(--accent); color: var(--accent); }
+.status--vision { border: 1px dashed var(--muted); color: var(--muted); }
+.status--tbc { border: 1px dashed var(--danger); color: #ff9a9d; }
+
+.tag { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 3px 8px; border-radius: 4px; }
+
+/* Visible TODO for content Mehvish still needs to supply */
+.todo { border: 1px dashed var(--danger); color: #ff9a9d; padding: 10px 14px; border-radius: 6px; font-family: var(--mono); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,5 @@
+# Old Hostinger URLs -> new case study URLs (Netlify and Cloudflare Pages both read this file)
+/spark-ai-designing-a-smarter-output-experience                   /work/spark-ai            301
+/introducing-complex-user-management-in-the-chargelab-dashboard   /work/user-management     301
+/elevating-the-chargelab-mobile-experience                        /work/mobile-charging     301
+/improving-biiibos-mobile-checkout-experience-and-conversion      /work/biiibo-checkout     301

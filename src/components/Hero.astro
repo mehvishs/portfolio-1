@@ -1,0 +1,208 @@
+---
+// Homepage hero: a dark brick wall lit by a "studio light" that follows the cursor.
+// Hovering (or tapping) research / design / ship lifts the matching object pinned to the wall
+// and swings the light onto it. Everything is visible at rest; motion only adds emphasis.
+---
+
+<section class="hero" data-active="" aria-labelledby="hero-title">
+  <canvas class="hero__wall" aria-hidden="true"></canvas>
+  <div class="hero__shade" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <h1 id="hero-title" class="hero__title">
+        Hey! I'm Mehvish. I <span class="nw"><button class="kw" type="button" data-key="research" aria-pressed="false">research</button>,</span> <button class="kw" type="button" data-key="design" aria-pressed="false">design</button> and <button class="kw" type="button" data-key="ship" aria-pressed="false">ship</button> B2B&nbsp;products.
+      </h1>
+      <p class="hero__rest">
+        8 years in. Most recently I led design at ChargeLab, partnering with product and engineering to ship AI-powered features, often writing the code alongside them.
+      </p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="#work" data-cursor="Scroll to work ↓">View featured work ↓</a>
+        <a class="btn" href="#contact" data-cursor="Get in touch">Get in touch</a>
+      </div>
+      <span class="hero__hint label"><span class="hint-fine">Hover</span><span class="hint-touch">Tap</span> the underlined words</span>
+    </div>
+
+    <div class="hero__board" aria-label="Examples from my work, pinned to the wall">
+      <figure class="obj obj--note" data-key="research" tabindex="0">
+        <span class="tape" aria-hidden="true"></span>
+        <blockquote>“What do I have to press to get to the next step? It's not obvious at all.”</blockquote>
+        <figcaption>Contractor, interviewed on a construction site · Biiibo</figcaption>
+      </figure>
+
+      <figure class="obj obj--card" data-key="design" tabindex="0">
+        <span class="pin" aria-hidden="true"></span>
+        <svg viewBox="0 0 240 132" role="img" aria-label="Hand-drawn wireframe of a permissions screen with three levels">
+          <g fill="none" stroke="#2a2722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="6" width="228" height="120" rx="6" />
+            <path d="M6 28h228" />
+            <rect x="16" y="40" width="58" height="76" rx="4" />
+            <path d="M24 54h40M24 68h32M24 82h38M24 96h28" />
+            <rect x="86" y="40" width="138" height="20" rx="4" />
+            <rect x="86" y="68" width="138" height="20" rx="4" />
+            <rect x="86" y="96" width="138" height="20" rx="4" />
+          </g>
+          <g font-family="Caveat, cursive" font-size="15" fill="#2a2722">
+            <text x="94" y="55">Super admin</text>
+            <text x="94" y="83">Network</text>
+            <text x="94" y="111">Company</text>
+          </g>
+        </svg>
+        <figcaption>3 permission levels, one consistent screen · ChargeLab</figcaption>
+      </figure>
+
+      <figure class="obj obj--ship" data-key="ship" tabindex="0">
+        <span class="stamp" aria-hidden="true">Shipped</span>
+        <ul>
+          <li>Prototyped in Claude + Figma Make</li>
+          <li>Built alongside engineering</li>
+          <li>Spark output: live in production</li>
+        </ul>
+        <figcaption>Spark AI · ChargeLab</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; overflow: hidden; background: var(--brick); isolation: isolate; }
+  .hero__wall { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
+  /* keeps the copy side calm and readable however the light moves */
+  .hero__shade { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(90deg, rgba(11,11,12,.84) 0%, rgba(11,11,12,.45) 50%, rgba(11,11,12,0) 100%),
+                linear-gradient(0deg, var(--ink) 0%, rgba(11,11,12,0) 18%); }
+  .hero__inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; padding-block: clamp(72px, 12vw, 132px) clamp(72px, 10vw, 120px); }
+  .hero__copy { display: grid; gap: 28px; min-width: 0; }
+  .hero__title { font-size: clamp(36px, 5.6vw, 66px); font-weight: 700; font-variation-settings: "wdth" 108; letter-spacing: -.02em; line-height: 1.08; }
+  .kw {
+    font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 100% .07em; background-position: 0 92%; background-repeat: no-repeat;
+    transition: color .2s, background-size .25s var(--ease);
+  }
+  .kw:hover, .kw[aria-pressed="true"] { color: var(--on-accent); background-size: 100% 100%; }
+  .hero__rest { font-size: clamp(19px, 2vw, 23px); line-height: 1.45; color: #8f8c86; max-width: 40ch; }
+  .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; font-weight: 600; font-size: 15px; text-decoration: none; border: 1px solid var(--fg); border-radius: 999px; transition: background .2s, color .2s; }
+  .btn:hover { background: var(--fg); color: var(--ink); }
+  .btn--primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .btn--primary:hover { background: var(--fg); border-color: var(--fg); }
+  .nw { white-space: nowrap; }
+  .hint-touch { display: none; }
+  @media (pointer: coarse) { .hint-touch { display: inline; } .hint-fine { display: none; } }
+
+  /* pinned objects */
+  .hero__board { position: relative; min-height: 540px; }
+  .obj { position: absolute; margin: 0; transition: transform .35s var(--ease), opacity .3s, box-shadow .35s; box-shadow: 0 2px 0 rgba(0,0,0,.25), 0 16px 34px rgba(0,0,0,.5); cursor: default; }
+  .obj figcaption { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; margin-top: 10px; opacity: .7; }
+  .obj--note { top: 0; left: 4%; width: 200px; padding: 22px 18px 16px; background: var(--accent); color: #2a2722; transform: rotate(-4deg); }
+  .obj--note blockquote { margin: 0; font-family: var(--hand); font-size: 25px; line-height: 1.05; }
+  .tape { position: absolute; top: -10px; left: 50%; width: 74px; height: 22px; margin-left: -37px; background: rgba(242, 237, 224, .55); transform: rotate(3deg); }
+  .obj--card { top: 150px; right: -2%; width: 260px; padding: 16px 16px 12px; background: var(--paper); color: #2a2722; transform: rotate(3deg); border-radius: 2px; }
+  .obj--card svg { width: 100%; height: auto; }
+  .pin { position: absolute; top: -8px; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8a8d, var(--danger)); box-shadow: 0 3px 5px rgba(0,0,0,.4); }
+  .obj--ship { bottom: 0; left: 0; width: 250px; padding: 22px 18px 14px; background: var(--raised); border: 1px solid var(--line); color: var(--fg); transform: rotate(-2deg); border-radius: 8px; }
+  .obj--ship ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-family: var(--mono); font-size: 12px; }
+  .obj--ship li::before { content: "✓ "; color: var(--accent); }
+  .stamp { position: absolute; top: -16px; right: -14px; font-family: var(--display); font-weight: 900; font-variation-settings: "wdth" 125; text-transform: uppercase; letter-spacing: .06em; font-size: 15px; color: var(--accent); border: 3px solid var(--accent); border-radius: 6px; padding: 2px 10px; transform: rotate(-10deg); background: rgba(11,11,12,.85); }
+
+  .hero:not([data-active=""]) .obj { opacity: .4; }
+  .hero[data-active="research"] .obj.obj--note,
+  .hero[data-active="design"] .obj.obj--card,
+  .hero[data-active="ship"] .obj.obj--ship { opacity: 1; z-index: 3; transform: rotate(0deg) scale(1.07); box-shadow: 0 4px 0 rgba(0,0,0,.25), 0 30px 50px rgba(0,0,0,.6); }
+
+  @media (max-width: 880px) {
+    .hero__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .hero__shade { background: linear-gradient(180deg, rgba(11,11,12,.82) 0%, rgba(11,11,12,.6) 55%, var(--ink) 100%); }
+    .hero__board { min-height: 0; display: flex; gap: 22px; overflow-x: auto; padding: 18px 4px 26px; scroll-snap-type: x mandatory; }
+    .obj { position: relative; inset: auto; flex: 0 0 auto; scroll-snap-align: center; }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('.hero')!;
+  const canvas = hero.querySelector<HTMLCanvasElement>('.hero__wall')!;
+  const ctx = canvas.getContext('2d')!;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(pointer: fine)').matches;
+
+  // --- keyword ↔ object linking ---
+  const kws = [...hero.querySelectorAll<HTMLButtonElement>('.kw')];
+  const objs = [...hero.querySelectorAll<HTMLElement>('.obj')];
+  let target: { x: number; y: number } | null = null;
+
+  function setActive(key: string) {
+    hero.dataset.active = key;
+    kws.forEach((k) => k.setAttribute('aria-pressed', String(k.dataset.key === key)));
+    const obj = objs.find((o) => o.dataset.key === key);
+    if (obj) {
+      const h = hero.getBoundingClientRect(), r = obj.getBoundingClientRect();
+      target = { x: r.left + r.width / 2 - h.left, y: r.top + r.height / 2 - h.top };
+    } else target = null;
+  }
+  [...kws, ...objs].forEach((el) => {
+    const key = el.dataset.key!;
+    el.addEventListener('pointerenter', (e) => { if ((e as PointerEvent).pointerType === 'mouse') setActive(key); });
+    el.addEventListener('pointerleave', (e) => { if ((e as PointerEvent).pointerType === 'mouse') setActive(''); });
+    el.addEventListener('focus', () => setActive(key));
+    el.addEventListener('blur', () => setActive(''));
+  });
+  kws.forEach((k) => k.addEventListener('click', () => {
+    const key = hero.dataset.active === k.dataset.key ? '' : k.dataset.key!;
+    setActive(key);
+    if (key && !fine) objs.find((o) => o.dataset.key === key)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+  }));
+
+  // --- brick wall + studio light ---
+  type Brick = { x: number; y: number; w: number; h: number; base: number };
+  let W = 0, H = 0, bricks: Brick[] = [];
+  let lx = 0, ly = 0, px: number | null = null, py: number | null = null;
+  const BW = 74, BH = 27, M = 3;
+
+  function build() {
+    const r = hero.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bricks = [];
+    for (let row = 0, y = 0; y < H; row++, y += BH) {
+      const off = row % 2 ? -BW / 2 : 0;
+      for (let x = off; x < W; x += BW) bricks.push({ x, y, w: BW - M, h: BH - M, base: 19 + Math.random() * 7 });
+    }
+    if (!lx) { lx = W * .72; ly = H * .45; }
+  }
+
+  function draw(t: number) {
+    // light goal: active object > pointer > slow ambient drift
+    let gx: number, gy: number;
+    if (target) { gx = target.x; gy = target.y; }
+    else if (px !== null && py !== null) { gx = px; gy = py; }
+    else { gx = W * (.66 + .16 * Math.sin(t / 3100)); gy = H * (.45 + .2 * Math.sin(t / 2300)); }
+    lx += (gx - lx) * (reduce ? 1 : .08); ly += (gy - ly) * (reduce ? 1 : .08);
+
+    ctx.fillStyle = '#0b0b0c';
+    ctx.fillRect(0, 0, W, H);
+    const R = Math.max(260, Math.min(W, 900) * .42);
+    for (const b of bricks) {
+      const d = Math.hypot(b.x + b.w / 2 - lx, b.y + b.h / 2 - ly);
+      const f = Math.pow(Math.max(0, 1 - d / R), 1.8);
+      const r = b.base + 3 + f * (104 - b.base), g = b.base + 1 + f * (84 - b.base), bl = b.base + f * (56 - b.base);
+      ctx.fillStyle = `rgb(${r | 0},${g | 0},${bl | 0})`;
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      if (f > .05) { // lit top edge gives the bricks depth
+        ctx.fillStyle = `rgba(255,214,140,${f * .16})`;
+        ctx.fillRect(b.x, b.y, b.w, 1.5);
+      }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  hero.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const r = hero.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top;
+  });
+  hero.addEventListener('pointerleave', () => { px = py = null; });
+  window.addEventListener('resize', () => { build(); if (reduce) draw(0); });
+  build();
+  requestAnimationFrame(draw);
+</script>

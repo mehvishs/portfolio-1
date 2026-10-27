@@ -1,0 +1,19 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'Standout insight' } = Astro.props;
+---
+
+<aside class="callout">
+  <span class="label">{label}</span>
+  <div class="callout__body"><slot /></div>
+</aside>
+
+<style>
+  .callout { background: var(--accent); color: var(--on-accent); border-radius: 10px; padding: clamp(22px, 3.5vw, 36px); display: grid; gap: 10px; }
+  .label { color: var(--on-accent); opacity: .7; }
+  .callout__body { font-size: clamp(20px, 2.4vw, 26px); line-height: 1.35; font-weight: 600; font-variation-settings: "wdth" 104; max-width: 46ch; }
+  .callout .callout__body :global(p) { margin: 0; color: inherit; }
+  .callout .callout__body :global(strong) { color: inherit; font-weight: 800; background: rgba(20,18,16,.1); padding: 0 .15em; border-radius: 3px; }
+</style>

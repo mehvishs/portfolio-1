@@ -1,0 +1,10 @@
+---
+interface Props {
+  value: 'Shipped' | 'In rollout' | 'Vision' | 'TBC';
+}
+const { value } = Astro.props;
+const cls = { Shipped: 'shipped', 'In rollout': 'rollout', Vision: 'vision', TBC: 'tbc' }[value];
+const text = value === 'TBC' ? 'Status TBC' : value;
+---
+
+<span class={`status status--${cls}`}>{text}</span>

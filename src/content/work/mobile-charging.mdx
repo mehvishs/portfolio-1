@@ -1,0 +1,154 @@
+---
+title: Mobile charging flow
+company: ChargeLab
+order: 2
+outcome: The "forgotten child" app got a new core flow. Sign up and start a charge in 3 minutes, down from 7.
+headline: 40% of drivers used a mobile app nobody had invested in. I redesigned the core charging flow, and time to sign up and start a charge dropped from 7 minutes to 3.
+tags: [Mobile, A/B testing]
+status: Shipped
+role: Product Designer & Researcher
+workedWith: PM, engineering (Flutter), data scientist, support
+timeline: 4 months
+tools: [Figma, Miro, Prolific]
+cover: Charging flow, after
+opener:
+  back: ChargeLab driver app, charger details
+  mid: Session-start screen, cropped
+  phone: driver starting a charge
+  note: drivers were guessing the plug-in order
+---
+
+import Problem from '../../components/case/Problem.astro';
+import KeyQuestion from '../../components/case/KeyQuestion.astro';
+import Roadmap from '../../components/case/Roadmap.astro';
+import Section from '../../components/case/Section.astro';
+import Callout from '../../components/case/Callout.astro';
+import Figure from '../../components/case/Figure.astro';
+import Impact from '../../components/case/Impact.astro';
+import StickyBoard from '../../components/case/StickyBoard.astro';
+import Todo from '../../components/case/Todo.astro';
+
+<Problem
+  items={[
+    { title: 'A forgotten child', text: 'Visually inconsistent, off the design system, and built years ago with outdated patterns.' },
+    { title: 'Used more than we thought', text: '40% of drivers used it, and the base was growing 1.5–3% month over month.' },
+    { title: 'No guidance, no feedback', text: "Drivers weren't told how to start charging, or whether their session had started." },
+  ]}
+/>
+
+<KeyQuestion>How do we fix the most important flow first, when technical debt means we can't fix everything at once?</KeyQuestion>
+
+<Roadmap
+  items={[
+    { step: '01', title: 'Field research', status: 'Shipped', href: '#research' },
+    { step: '02', title: 'Side quest: the plug-in order', status: 'Shipped', href: '#ab-test' },
+    { step: '03', title: 'Redesigning the charging flow', status: 'Shipped', href: '#design' },
+    { step: '04', title: 'Search & filtering', status: 'Vision', href: '#vision' },
+  ]}
+/>
+
+<Section id="research" eyebrow="Research" title="Watching drivers at the charger">
+
+It was widely assumed the mobile app was rarely used. That assumption was challenged during a set of unrelated driver interviews, where several users mentioned the app and shared their frustrations. The metrics told the same story, so **we went into the field**: watching drivers start sessions, then interviewing them.
+
+<StickyBoard
+  title="What we saw in the field"
+  clusters={[
+    { name: 'Guidance', notes: [
+      { text: 'Drivers were guessing the plug-in order', source: 'Field study', color: 'yellow', star: true },
+      { text: "The app didn't match the design system", source: 'Audit', color: 'paper' },
+    ] },
+    { name: 'Feedback', notes: [
+      { text: 'No feedback when a session started', source: 'Field study', color: 'paper' },
+      { text: 'Blank screens mid-flow', source: 'Field study', color: 'grey' },
+    ] },
+    { name: 'Support & trust', notes: [
+      { text: 'Support was hard to find', source: 'Interviews', color: 'paper' },
+      { text: 'Phone numbers had to be copied by hand', source: 'Field study', color: 'yellow' },
+    ] },
+  ]}
+/>
+
+</Section>
+
+<Section id="ab-test" eyebrow="Side quest" title="Addressing the plug-in order">
+
+Support often told drivers to **start the session before plugging in**, based on anecdotal experience. Before redesigning the flow around that advice, we partnered with the data scientist to run a ~10-day A/B test on the web app, measuring **session success rate**: the share of attempts that end in a successful charge.
+
+<Impact stats={[{ from: '70%', to: '76%', label: 'Session success: the support-instructed flow (70%) vs. a neutral flow with no plug-in instruction (76%).' }]}>
+
+**The anecdotal advice was wrong.** Prompting drivers to start first increased failures.
+
+Plug-in order also turned out to **depend on the charger type**, so the design avoids order-specific instructions.
+
+We were grateful for the clarity: it saved us from building the wrong thing.
+
+</Impact>
+
+</Section>
+
+<Section id="design" eyebrow="Design" title="Redesigning the core charging flow" status="Shipped">
+
+<Figure
+  image="Charger details, before and after"
+  caption="Before: unlabeled support number, no guidance. After: on the design system, guided, and clear about what's happening."
+  pins={[{ x: 30, y: 20 }, { x: 70, y: 62 }, { x: 46, y: 84 }]}
+  notes={[
+    { title: 'Design system alignment', text: 'The UI was rebuilt on the ChargeLab design system, matching the web app and dashboard.' },
+    { title: 'Guided, not prescriptive', text: "Clear instructions after starting a session, without dictating a plug-in order that depends on the charger." },
+    { title: 'Tap to call support', text: 'A labeled, tappable support link replaced a raw phone number drivers had to copy.' },
+  ]}
+/>
+
+<Figure
+  image="Session-start feedback + tips carousel"
+  caption="Drivers now know their session started, and get tips while they plug in."
+  ratio="16 / 9"
+  pins={[{ x: 30, y: 40 }, { x: 72, y: 56 }]}
+  notes={[
+    { title: 'Session-start feedback', text: 'A "Session in progress" screen keeps drivers informed during their charge.' },
+    { title: 'Tips carousel', text: 'Answers common issues right on the plug-in screen, where drivers get stuck, instead of in a help page they never open.' },
+  ]}
+/>
+
+<Figure
+  image="Social sign-in + Apple Pay flow"
+  caption="Two of the most requested features, still missing from many competitor apps."
+  ratio="16 / 9"
+  notes={[
+    { title: 'Social sign-in and Apple/Google Pay', text: "Phone numbers matter because drivers get SMS alerts about idle fees, so after social sign-in we added a separate step to verify a phone number, with a clear explanation of why and the option to skip." },
+    { title: 'Removing "free and open"', text: 'The field was inaccurate, so we removed it.' },
+  ]}
+/>
+
+</Section>
+
+<Section id="impact" eyebrow="Impact" title="Faster to charge, fewer calls">
+
+<Impact stats={[{ from: '7 min', to: '3 min', label: 'Average time to sign up and start a charge. **Several improvements shipped together**, so this reflects the combined redesign.' }]}>
+
+**Fewer support walkthrough calls** after release.
+
+A consolidated help drawer brought every help entry point into one place, and **support saw 10% fewer calls** in its first month.
+
+We validated with a second field study: net-new drivers going from sign-up to charging, plus existing drivers on the redesigned flow.
+
+</Impact>
+
+</Section>
+
+<Section id="vision" eyebrow="Vision" title="Search, filtering and location preview" status="Vision">
+
+Our redesigned vision expands filtering to include distance and payment type, and surfaces connector type, pricing, imagery and access details right in search results.
+
+<Figure image="Search & filtering concept" caption="Concept work. Not shipped." ratio="16 / 9" />
+
+</Section>
+
+<Section id="next" eyebrow="What I learned" title="What I'd do next">
+
+**We didn't rank areas by impact before committing design time, and that was on us.**
+
+<Todo>Add 1–2 lines of context after this sentence (from your brief's retrospective note).</Todo>
+
+</Section>

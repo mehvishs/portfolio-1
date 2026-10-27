@@ -1,0 +1,192 @@
+---
+title: Spark AI
+company: ChargeLab
+order: 1
+outcome: AI insights nobody used, brought into the dashboard. 2–3 → 46 interactions in month one.
+headline: Spark, ChargeLab's AI diagnostics layer, was generating insights nobody used. I led the redesign that brought it into the CSMS dashboard, taking it from 2–3 interactions to 46 in its first month.
+tags: [AI design, B2B SaaS]
+status: In rollout
+role: Product Designer & Researcher
+workedWith: PM, Spark Pod EM and engineers, support team
+timeline: 4 weeks research & design, 1 week testing, phased rollout through 2026
+tools: [Figma, Figma Make, Claude]
+cover: Spark output, after
+opener:
+  back: CSMS dashboard with Spark, full context
+  mid: Spark diagnostic output, cropped
+  note: operators wanted to verify what the AI told them
+---
+
+import Problem from '../../components/case/Problem.astro';
+import KeyQuestion from '../../components/case/KeyQuestion.astro';
+import Roadmap from '../../components/case/Roadmap.astro';
+import Section from '../../components/case/Section.astro';
+import Callout from '../../components/case/Callout.astro';
+import Figure from '../../components/case/Figure.astro';
+import Impact from '../../components/case/Impact.astro';
+import StickyBoard from '../../components/case/StickyBoard.astro';
+import Todo from '../../components/case/Todo.astro';
+
+<Problem
+  label="A subpar output"
+  items={[
+    { title: 'Dense output', text: 'Spark produced hard-to-parse, unstyled HTML that often left users uninterested in its response.' },
+    { title: 'Low visibility', text: "It lived in its own dashboard, separate from the CSMS, so operators had no reason to go looking for it." },
+    { title: 'Low adoption', text: 'The "Analyze" button got 2–3 interactions in total. Insights that should have driven action went unseen.' },
+  ]}
+/>
+
+<KeyQuestion>
+  How do you get real value out of a growing set of AI tools that live somewhere nobody visits by default?
+</KeyQuestion>
+
+<Roadmap
+  items={[
+    { step: 'Phase 1', title: 'Fixing the output', status: 'Shipped', href: '#phase-1' },
+    { step: 'Phase 2', title: 'Bringing Spark into the dashboard', status: 'TBC', href: '#phase-2' },
+    { step: 'Phase 3', title: 'Location-level insights', status: 'TBC', href: '#phase-3' },
+    { step: 'Phase 4', title: 'Always-on assistant', status: 'Vision', href: '#phase-4' },
+  ]}
+/>
+
+<Section id="context" eyebrow="Context + role" title="A small family of AI tools, living somewhere nobody visits">
+
+ChargeLab gives site hosts and operators a full suite of tools to manage their charging network, with the CSMS dashboard at the core. Since its inception, Spark had grown into **a small family of AI tools in its own right**: chat diagnostics, a rules engine, firmware validation, proactive actions and more. Built by a lean team, it lived in its own dashboard.
+
+As a first iteration, Spark was brought into the dashboard as a diagnostic tool. But its output inherited the format of its earlier life as a lookup tool for spec questions, **a format that never caught up to the new job it was doing.**
+
+I was brought in to work with the Spark Pod to rethink the interface and find where Spark could add the most value for our users. **Engineering led the LLM and backend work; my focus was the interface and experience.**
+
+</Section>
+
+<Section id="research" eyebrow="Research + process" title="Talking to the people who'd actually use it">
+
+- **Discovery interviews** with network operators and our internal support team, alongside the PM, plus a few site hosts for the long-term vision.
+- **Observed** support and hardware troubleshooting workflows.
+- **Card sorting with the PM and EM** to weigh what users needed against what we could realistically build with our capacity.
+- **Validation sessions** on prototypes with users and support staff.
+
+<StickyBoard
+  title="What we heard"
+  clusters={[
+    { name: 'Trust', notes: [
+      { text: 'Excited about proactive charger management', source: 'Operator interviews', color: 'paper' },
+      { text: 'But wanted to verify what the AI told them', source: 'Operator interviews', color: 'yellow', star: true },
+    ] },
+    { name: 'Visibility', notes: [
+      { text: "Spark lived in a dashboard nobody visited", source: 'Usage data', color: 'paper' },
+      { text: 'Support worked from raw logs on live calls', source: 'Support observation', color: 'grey' },
+    ] },
+    { name: 'Feasibility', notes: [
+      { text: 'No notification engine to build on yet', source: 'Card sort with PM + EM', color: 'grey' },
+      { text: 'Ship in phases, starting with the output', source: 'Card sort with PM + EM', color: 'paper' },
+    ] },
+  ]}
+/>
+
+<Callout>
+  Users were excited by proactive charger management, but **they wanted to verify what the AI told them.** That one insight led directly to the "Learn more" link on every Spark output.
+</Callout>
+
+<Todo>Check the sticky notes above. They're drawn from your brief; edit the wording so it matches what you actually heard.</Todo>
+
+</Section>
+
+<Section id="phase-1" eyebrow="Phase 1" title="Fixing the output" status="Shipped">
+
+We reimagined Spark as **a chat interface**, consistent with the AI patterns users already know, and I redesigned the output itself so complex diagnostics read at a glance. It went through several rounds of internal and external usability testing before shipping.
+
+<Figure
+  image="Spark output, before and after"
+  caption="Before: raw HTML nobody read. After: severity first, then a summary, then the root cause."
+  pins={[{ x: 58, y: 22 }, { x: 70, y: 48 }, { x: 64, y: 76 }]}
+  notes={[
+    { title: 'Color-coded alerts', text: 'Severity reads before a single word does, so operators can triage at a glance.' },
+    { title: 'Concise diagnostic summary', text: "What's wrong, in one line, instead of paragraphs of unstyled HTML." },
+    { title: 'Clear root cause', text: 'The likely cause is called out on its own, so the next action is obvious.' },
+  ]}
+/>
+
+<Figure
+  image="'Learn more' on a Spark output, cropped"
+  caption="Every output links to the evidence behind it."
+  ratio="4 / 3"
+  pins={[{ x: 78, y: 82 }]}
+  notes={[
+    { title: '"Learn more" for trust', text: 'Operators wanted to check the AI before acting on it. Rather than asking them to trust a black box, every output shows its working.' },
+  ]}
+/>
+
+This shipped first, but **it only solved half the problem.** Spark's output was easier to read, but you still had to know to go looking for it.
+
+</Section>
+
+<Section id="phase-2" eyebrow="Phase 2" title="Bringing Spark into the dashboard" status="TBC">
+
+With Phase 1 live, the next step was surfacing Spark's capabilities directly inside the CSMS.
+
+<Figure
+  image="Charger-level notification banner, cropped"
+  caption="A notification at the top of the charger details page, built without a notification engine."
+  ratio="21 / 9"
+  wide
+  pins={[{ x: 8, y: 50 }]}
+  notes={[
+    { title: 'Charger-level notifications', text: "There was no notification engine to build on yet, so I embedded a banner at the top of the charger details page that flags failures and useful charger-level insights. It's the first step from reactive to proactive charger management." },
+  ]}
+/>
+
+<Figure
+  image="Session list with failure tags, cropped"
+  caption="Likely causes tagged on failed sessions."
+  ratio="16 / 9"
+  pins={[{ x: 72, y: 40 }]}
+  notes={[
+    { title: 'Session-level diagnosis', text: "Engineering could tag the likely cause of most failed sessions (user error vs. hardware error), so we surfaced those tags. It can't always pin down one reason, since several factors are often at play, so the design doesn't pretend to be certain." },
+  ]}
+/>
+
+<Todo>Confirm Phase 2's status: Shipped, In rollout, or not yet started?</Todo>
+
+</Section>
+
+<Section id="phase-3" eyebrow="Phase 3" title="Location-level insights" status="TBC">
+
+With charger- and session-level insights in place, the next step was **surfacing patterns at the location level**: clusters of failures across sites, chargers nearing a firmware update, or notable shifts in session volume or fees collected. These are patterns that only become visible once you zoom out past a single charger.
+
+<Figure image="Location-level insights, cropped" caption="Patterns that only show up once you zoom out past a single charger." ratio="16 / 9" />
+
+<Todo>Confirm Phase 3's status.</Todo>
+
+</Section>
+
+<Section id="phase-4" eyebrow="Phase 4" title="Vision: help that's always there" status="Vision">
+
+The long-term vision is to help users spot anomalies at their stations quickly, and fix as many issues as possible themselves.
+
+- **Always-on assistant:** Spark can be opened from anywhere in the dashboard, so help is there the moment someone needs it.
+- **Notification center:** one home for Spark's proactive alerts, instead of scattering them across pages. Operators can check it, or be pinged directly.
+
+<Figure image="Always-on assistant + notification center concept" caption="Concept work. Not shipped." ratio="16 / 9" />
+
+</Section>
+
+<Section id="impact" eyebrow="Impact" title="From ignored to part of the job">
+
+<Impact stats={[{ from: '2–3', to: '46', label: 'Spark interactions in the first month after the redesign. A small number on its own, but **a roughly 15× jump** for a tool most people never opened.' }]}>
+
+**Support pulls up Spark on live calls** with site hosts and drivers, instead of working from logs alone.
+
+**Operators' teams rely on its notifications** to get ahead of charger maintenance.
+
+Not every phase has rolled out yet, so these are **early signals**, not final results.
+
+</Impact>
+
+</Section>
+
+<Section id="next" eyebrow="What I learned" title="What I'd do next">
+
+<Todo>Write 2–3 lines in the first person: what you learned, or what you'd do differently. For example, how you'd measure adoption beyond interaction counts.</Todo>
+
+</Section>

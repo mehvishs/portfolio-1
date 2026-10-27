@@ -1,0 +1,36 @@
+---
+const links = [
+  { href: '/#work', label: 'Work' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__name" href="/" data-cursor="Home">Mehvish Siddique</a>
+    <nav aria-label="Main">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: rgba(11, 11, 12, .82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+  }
+  .nav__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
+  .nav__name { font-weight: 800; font-variation-settings: "wdth" 125; text-decoration: none; letter-spacing: -.01em; }
+  ul { list-style: none; display: flex; gap: clamp(14px, 3vw, 28px); margin: 0; padding: 0; font-size: 15px; }
+  ul a { color: var(--muted); text-decoration: none; transition: color .2s; }
+  ul a:hover { color: var(--fg); }
+</style>

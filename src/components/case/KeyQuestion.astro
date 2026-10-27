@@ -1,0 +1,16 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'The key question' } = Astro.props;
+---
+
+<blockquote class="kq">
+  <span class="label">{label}</span>
+  <div class="kq__q"><slot /></div>
+</blockquote>
+
+<style>
+  .kq { margin: 0; padding-left: 28px; border-left: 4px solid var(--accent); display: grid; gap: 12px; }
+  .kq__q, .kq__q :global(p) { margin: 0; font-family: var(--display); font-size: clamp(26px, 3.6vw, 40px); line-height: 1.18; font-weight: 600; font-variation-settings: "wdth" 105; max-width: 30ch; }
+</style>

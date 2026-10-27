@@ -1,0 +1,18 @@
+---
+interface Props {
+  id?: string;
+  title: string;
+  aside?: string;
+}
+const { id, title, aside } = Astro.props;
+---
+
+<header class="sh">
+  <h2 id={id} class="label">{title}</h2>
+  {aside && <span class="label">{aside}</span>}
+</header>
+
+<style>
+  .sh { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 14px; }
+  h2 { font-family: var(--mono); }
+</style>

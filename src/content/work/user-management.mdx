@@ -1,0 +1,96 @@
+---
+title: User management & permissions
+company: ChargeLab
+order: 3
+outcome: Clients with 100+ users can now manage access themselves. Bulk-permission requests to support nearly stopped.
+headline: Clients with 100+ users couldn't manage access themselves, so support spent hours a week doing it by hand. I designed a self-serve, three-tier permissions system, and bulk-permission requests nearly stopped.
+tags: [B2B SaaS, Enterprise]
+status: Shipped
+role: Product Designer & Researcher
+workedWith: PM, support (4), solutions engineering (2), engineering, client operators
+timeline: 3 weeks (1 week discovery, 1 week design, 1 week validation)
+tools: [Figma, Figma Make, Claude]
+cover: Permissions table, cropped
+opener:
+  back: CSMS user management, full context
+  mid: Permission levels panel, cropped
+  note: clients wanted to be self-sufficient
+---
+
+import Problem from '../../components/case/Problem.astro';
+import KeyQuestion from '../../components/case/KeyQuestion.astro';
+import Section from '../../components/case/Section.astro';
+import Callout from '../../components/case/Callout.astro';
+import Figure from '../../components/case/Figure.astro';
+import Impact from '../../components/case/Impact.astro';
+import Todo from '../../components/case/Todo.astro';
+
+<Problem
+  items={[
+    { title: 'One user at a time', text: 'Permissions only worked user by user, which broke down past ~20 users.' },
+    { title: 'Support as a bottleneck', text: 'Support and solutions engineering spent hours manually adding, removing and re-roling users.' },
+    { title: 'A client pushing for change', text: 'One of our largest operators, with 100+ users, wanted to self-serve instead of escalating every change.' },
+  ]}
+/>
+
+<KeyQuestion>How can we make adding, removing and updating roles simpler for power users?</KeyQuestion>
+
+<Section id="research" eyebrow="Research" title="Starting inside, then going to clients">
+
+Internal discovery with support and solutions engineering came first, then discovery calls with operators. **The clearest signal: clients wanted to be self-sufficient.**
+
+The solution had to work for three levels:
+
+- **Super admin** (ChargeLab internal): all networks and companies
+- **Network admin:** scoped to one network
+- **Company admin:** scoped to one company
+
+<Callout label="Process">
+  I benchmarked enterprise permission patterns, then **prototyped in Figma and Claude** and validated with internal teams and clients. The prototypes also showed engineering complex micro-interactions **better than tickets could.**
+</Callout>
+
+</Section>
+
+<Section id="design" eyebrow="Design" title="One experience that scales across three levels" status="Shipped">
+
+<Figure
+  image="All-companies view vs. single-company view"
+  caption="Two modes, so a super admin can manage thousands of companies without losing context."
+  pins={[{ x: 22, y: 30 }, { x: 70, y: 52 }]}
+  notes={[
+    { title: 'Two-mode experience', text: 'An all-companies view and a single-company view, matched to how each user type works.' },
+    { title: 'Right level of detail', text: 'Show what the task needs, and let users dig deeper when they want to.' },
+  ]}
+/>
+
+<Figure
+  image="Paginated user list, cropped"
+  caption="A trade-off: pagination instead of loading every user up front."
+  ratio="16 / 9"
+  pins={[{ x: 80, y: 86 }]}
+  notes={[
+    { title: 'Designing within constraints', text: "The backend couldn't load all users up front without a larger rework, so I solved it with pagination, keeping the release on schedule." },
+  ]}
+/>
+
+</Section>
+
+<Section id="impact" eyebrow="Impact" title="Support noticed first">
+
+<Impact stats={[{ to: '≈0', label: 'New bulk-permission requests since release. **Support and solutions engineering** saw access requests drop almost immediately.' }]}>
+
+The client with 100+ users who asked for this saw **their requests drop significantly** after release.
+
+**Power users now make these changes themselves**, freeing up support as ChargeLab's user base grows.
+
+</Impact>
+
+<Todo>Is "≈0 new bulk-permission requests" accurate enough to show as a big number? If not, I'll swap it for a qualitative headline.</Todo>
+
+</Section>
+
+<Section id="next" eyebrow="What I learned" title="What I'd do next">
+
+<Todo>Write 2–3 lines in the first person.</Todo>
+
+</Section>

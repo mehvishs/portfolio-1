@@ -1,0 +1,39 @@
+---
+import Placeholder from './Placeholder.astro';
+import Status from './Status.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  company: string;
+  outcome: string;
+  tags: string[];
+  status: 'Shipped' | 'In rollout' | 'Vision';
+  cover: string;
+}
+const { href, title, company, outcome, tags, status, cover } = Astro.props;
+---
+
+<a class="card" href={href} data-cursor="View case study →">
+  <div class="card__img"><Placeholder label={cover} ratio="4 / 3" /></div>
+  <div class="card__body">
+    <span class="label">{company}</span>
+    <h3>{title}</h3>
+    <p>{outcome}</p>
+    <div class="card__meta">
+      {tags.map((t) => <span class="tag">{t}</span>)}
+      <Status value={status} />
+    </div>
+  </div>
+</a>
+
+<style>
+  .card { display: grid; gap: 16px; text-decoration: none; color: inherit; }
+  .card__img { transition: transform .4s var(--ease); }
+  .card:hover .card__img { transform: translateY(-4px); }
+  .card:hover :global(.ph) { border-color: var(--accent); }
+  .card__body { display: grid; gap: 8px; }
+  h3 { font-size: clamp(21px, 2.2vw, 25px); font-weight: 700; font-variation-settings: "wdth" 110; line-height: 1.2; }
+  p { color: var(--muted); font-size: 16px; max-width: 46ch; }
+  .card__meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+</style>
